@@ -31,7 +31,7 @@ func main() {
 	// 	fmt.Println("Created app!!")
 
 	case *runserver:
-    if err := runServer(); err != nil {
+    if err := RunServer(); err != nil {
         log.Fatalf("Unable to run server: %v", err)
     }
 }
@@ -107,7 +107,7 @@ func RegisterRoutes(mux *http.ServeMux) {
 
 // 	}
 // }
-func runServer() error {
+func RunServer() error {
 	host := "localhost"
 	port := "2300"
 
