@@ -39,6 +39,24 @@ func InitialiseProject(projectName string) error {
 		return fmt.Errorf("unable to create db: %w", err)
 	}
 
+	// config 
+	configContent := `package main;
+
+	package yora
+
+var HOST = "localhost"
+var PORT = "2300"
+var dbDriver = "sqlite"
+var dbPath = "db/"
+var auth = "session"
+var middlewares = []string{}
+
+var logfile = false
+`
+	configFile := filepath.Join(".", "config.go")
+	if err := os.WriteFile(configFile, []byte(configContent), 0644); err != nil { // 0644 for source files
+		return fmt.Errorf("unable to create config: %w", err)
+	}
 	// Add routes.go with valid Go content
 	routesContent := `package main
 
