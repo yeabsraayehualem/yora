@@ -1,4 +1,4 @@
-package main
+package yora
 
 var HOST = "localhost"
 var PORT = "2300"
