@@ -7,87 +7,67 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-
 )
 
 
 
-
 func InitialiseProject(projectName string) error {
-    if projectName == "" {
-        return fmt.Errorf("project name cannot be empty")
-    }
-
-   
-    subdirs := []string{"apps", "db", "middlewares"}
-    for _, dir := range subdirs {
-        path := filepath.Join("./", dir)
-        if err := os.Mkdir(path, 0755); err != nil {
-            return fmt.Errorf("failed to create %s: %w", dir, err)
-        }
-    }
-
-
-
-    // db file path (use Sprintf inside)
-dbPath := filepath.Join("./", "db")
-
-// Make sure project db folder exists
-if err := os.MkdirAll(dbPath, 0755); err != nil {
-    return fmt.Errorf("failed to create db folder: %w", err)
-}
-
-// Now create the sqlite file
-dbFile := filepath.Join(dbPath, fmt.Sprintf("%s.sqlite", projectName))
-dbContent := fmt.Sprintf("-- Placeholder schema for %s\n", projectName)
-if err := os.WriteFile(dbFile, []byte(dbContent), 0644); err != nil {
-    return fmt.Errorf("unable to create db: %w", err)
-}
-	// add routes 
-	routesContent := `
-package main;
-
-import "net/http"
-func RegisterRoutes(mux *http.ServeMux) {
-// mux.Handle("/blog/", http.StripPrefix("/blog", http.HandlerFunc(blog.Router)))
-
-
-}
-	`
-	routeFile := filepath.Join("./", "routes.go")
-
-	if err := os.WriteFile(routeFile,[]byte(routesContent),0755); err != nil{
-		log.Fatal("Unable to create routes: ",err)
+	if projectName == "" {
+		return fmt.Errorf("project name cannot be empty")
 	}
 
-    fmt.Println("Initialised project successfully")
-    return nil
+	subdirs := []string{"apps", "db", "middlewares"}
+	for _, dir := range subdirs {
+		path := filepath.Join(".", dir)
+		if err := os.Mkdir(path, 0755); err != nil {
+			return fmt.Errorf("failed to create %s: %w", dir, err)
+		}
+	}
+
+	// db file path
+	dbPath := filepath.Join(".", "db")
+
+	// Make sure project db folder exists (redundant but harmless since already created above)
+	if err := os.MkdirAll(dbPath, 0755); err != nil {
+		return fmt.Errorf("failed to create db folder: %w", err)
+	}
+
+	// Now create the sqlite file
+	dbFile := filepath.Join(dbPath, fmt.Sprintf("%s.sqlite", projectName))
+	dbContent := fmt.Sprintf("-- Placeholder schema for %s\n", projectName)
+	if err := os.WriteFile(dbFile, []byte(dbContent), 0644); err != nil {
+		return fmt.Errorf("unable to create db: %w", err)
+	}
+
+	// Add routes.go with valid Go content
+	routesContent := `package main
+
+import "net/http"
+
+func RegisterRoutes(mux *http.ServeMux) {
+	// TODO: Add your routes here
+	// Example: mux.HandleFunc("/example", exampleHandler)
+}
+`
+	routeFile := filepath.Join(".", "routes.go")
+
+	if err := os.WriteFile(routeFile, []byte(routesContent), 0644); err != nil { // 0644 for source files
+		return fmt.Errorf("unable to create routes: %w", err)
+	}
+
+	fmt.Println("Initialised project successfully")
+	return nil
 }
 
-
-
-// func createAppFunc(appName string) {
-// 	if err := os.Mkdir(filepath.Join("./apps",appName),0755); err != nil{
-// 		log.Fatal("Unable to create app: ",err)
-		
-// 	}
-// 	subfiles := []string{
-// 		"router.go","models.go","controllers.go",
-// 	}
-// 	for _,files := range subfiles{
-// 		content := fmt.Sprintf("Package %s", filepath.Base())
-// 		file := filepath.Join(filepath.Join("./",appName),files)
-
-// 	}
-// }
 func RunServer() error {
 	host := "localhost"
 	port := "2300"
 
 	if _, err := os.Stat("./config.go"); err == nil {
-        host = HOST
-        port = PORT
-    }
+		// Assuming config.go defines/imports HOST and PORT; otherwise, this block won't execute
+		host = HOST
+		port = PORT
+	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
@@ -151,13 +131,11 @@ func RunServer() error {
 		`)
 	})
 
-	
 	addr := fmt.Sprintf("%s:%s", host, port)
 	fmt.Printf("Server running at http://%s\n", addr)
 
 	return http.ListenAndServe(addr, nil)
 }
-
 
 func main() {
 	initFlag := flag.String("init", "", "Initialize the project with basic config")
@@ -180,10 +158,8 @@ func main() {
 	// 	fmt.Println("Created app!!")
 
 	case *runserver:
-    if err := RunServer(); err != nil {
-        log.Fatalf("Unable to run server: %v", err)
-    }
+		if err := RunServer(); err != nil {
+			log.Fatalf("Unable to run server: %v", err)
+		}
+	}
 }
-}
-
-
