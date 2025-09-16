@@ -40,7 +40,7 @@ func InitialiseProject(projectName string) error {
 	}
 
 	// config 
-	configContent := `package main;
+	configContent := `package main
 
 var HOST = "localhost"
 var PORT = "2300"
