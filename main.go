@@ -19,7 +19,7 @@ func main() {
 
 	switch {
 	case *initFlag != "":
-		if err := initialiseProject(*initFlag); err != nil {
+		if err := InitialiseProject(*initFlag); err != nil {
 			log.Fatalf("Unable to initialize project: %v", err)
 		}
 		fmt.Println("Initialised project!!")
@@ -40,7 +40,7 @@ func main() {
 
 
 
-func initialiseProject(projectName string) error {
+func InitialiseProject(projectName string) error {
     if projectName == "" {
         return fmt.Errorf("project name cannot be empty")
     }
