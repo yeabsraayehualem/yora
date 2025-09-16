@@ -1,4 +1,4 @@
-module yora
+module yeabsraayehualem/yora
 
 go 1.24.6
 
