@@ -10,32 +10,32 @@ import (
 
 )
 
-func main() {
-	initFlag := flag.String("init", "", "Initialize the project with basic config")
-	// createApp := flag.String("create-app", "", "Create an app with basic config")
-	runserver := flag.Bool("runserver", false, "Run dev server")
+// func main() {
+// 	initFlag := flag.String("init", "", "Initialize the project with basic config")
+// 	// createApp := flag.String("create-app", "", "Create an app with basic config")
+// 	runserver := flag.Bool("runserver", false, "Run dev server")
 
-	flag.Parse()
+// 	flag.Parse()
 
-	switch {
-	case *initFlag != "":
-		if err := InitialiseProject(*initFlag); err != nil {
-			log.Fatalf("Unable to initialize project: %v", err)
-		}
-		fmt.Println("Initialised project!!")
+// 	switch {
+// 	case *initFlag != "":
+// 		if err := InitialiseProject(*initFlag); err != nil {
+// 			log.Fatalf("Unable to initialize project: %v", err)
+// 		}
+// 		fmt.Println("Initialised project!!")
 
-	// case *createApp != "":
-	// 	if err := createAppFunc(*createApp); err != nil {
-	// 		log.Fatalf("Unable to start app: %v", err)
-	// 	}
-	// 	fmt.Println("Created app!!")
+// 	// case *createApp != "":
+// 	// 	if err := createAppFunc(*createApp); err != nil {
+// 	// 		log.Fatalf("Unable to start app: %v", err)
+// 	// 	}
+// 	// 	fmt.Println("Created app!!")
 
-	case *runserver:
-    if err := RunServer(); err != nil {
-        log.Fatalf("Unable to run server: %v", err)
-    }
-}
-}
+// 	case *runserver:
+//     if err := RunServer(); err != nil {
+//         log.Fatalf("Unable to run server: %v", err)
+//     }
+// }
+// }
 
 
 
