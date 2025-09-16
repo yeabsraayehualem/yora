@@ -42,8 +42,6 @@ func InitialiseProject(projectName string) error {
 	// config 
 	configContent := `package main;
 
-	package yora
-
 var HOST = "localhost"
 var PORT = "2300"
 var dbDriver = "sqlite"
